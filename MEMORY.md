@@ -4,4 +4,8 @@ This short index points to durable, source-backed project decisions shared by Co
 
 ## Notes
 
-No repository memory notes have been indexed yet. Add a short row here for each reviewed note under `docs/memory/`, with its purpose and update date. See the [memory note format](docs/memory/README.md).
+Add a short row here for each reviewed note under `docs/memory/`, with its purpose and update date. See the [memory note format](docs/memory/README.md).
+
+## Repository guide
+
+- [Repository guide](docs/memory/repository-guide.md) — project purpose, entrypoints, and documented commands (2026-11-15).
