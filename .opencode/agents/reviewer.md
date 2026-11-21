@@ -18,6 +18,57 @@ permissions:
   - action: browser
     resource: "*"
     effect: deny
+  - action: gmail_send
+    resource: "*"
+    effect: deny
+  - action: gmail_reply
+    resource: "*"
+    effect: deny
+  - action: gmail_create_draft
+    resource: "*"
+    effect: deny
+  - action: gmail_delete_draft
+    resource: "*"
+    effect: deny
+  - action: gmail_get_attachment
+    resource: "*"
+    effect: deny
+  - action: browser_persist_apply
+    resource: "*"
+    effect: deny
+  - action: browser_persist_revert
+    resource: "*"
+    effect: deny
+  - action: opencode_automation_create
+    resource: "*"
+    effect: deny
+  - action: opencode_automation_delete
+    resource: "*"
+    effect: deny
+  - action: opencode_automation_pause
+    resource: "*"
+    effect: deny
+  - action: opencode_automation_resume
+    resource: "*"
+    effect: deny
+  - action: opencode_session_move
+    resource: "*"
+    effect: deny
+  - action: opencode_session_rename
+    resource: "*"
+    effect: deny
+  - action: opencode_worktree_create
+    resource: "*"
+    effect: deny
+  - action: opencode_worktree_remove
+    resource: "*"
+    effect: deny
+  - action: todowrite
+    resource: "*"
+    effect: deny
+  - action: experimental_image_generate
+    resource: "*"
+    effect: deny
 ---
 
 # Reviewer

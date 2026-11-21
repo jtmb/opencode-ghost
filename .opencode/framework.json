@@ -2,7 +2,7 @@
   "version": 1,
   "generated": {
     "by": "orchestrator",
-    "at": "2026-11-21T03:47:44.969Z",
+    "at": "2026-11-21T03:58:11.551Z",
     "generatorVersion": 1,
     "templateVersion": 1,
     "templatesSha256": "3ee2116d1c585387bb579733868ec32637fa8a7f85d10ac8ec86a82560be6247",
@@ -22,7 +22,7 @@
       ".opencode/agents/lane-tests.md": "e8cc695b5970b7d1124ae5051539606297df7420fab0ead71b4867230a621e05",
       ".opencode/agents/integrator.md": "df42e9f9d6dabe056891fe26f5116703b84adaf60a3df26cc6ddf3724bc1931e",
       ".opencode/agents/docs-writer.md": "abf00f82a3d00f27fb2d00c6939d75187bc86ae3a54df1da6366d472bc815b23",
-      ".opencode/agents/reviewer.md": "1d8ab4eace2b4ed298922cfab0315e39e7ae06556bb48a752e16d04f039a1535",
+      ".opencode/agents/reviewer.md": "88c3b64e1af5ea3ec1c41eaed7c04254d257c0eb18506c9753ef849627bedb31",
       ".opencode/agents/memory-curator.md": "0b312134f44d67d76ffe9427425f80a10a990d6434b0baa1e70f79e5e74035ad"
     },
     "payloadSha256": "5822c298ff5c53cd9bd68ea4e349c334c34addc8bd21397e12d228d9caa765b1"
