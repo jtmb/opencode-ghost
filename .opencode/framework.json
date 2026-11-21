@@ -1,0 +1,97 @@
+{
+  "version": 1,
+  "generated": {
+    "by": "orchestrator",
+    "at": "2026-11-21T03:46:46.887Z",
+    "generatorVersion": 1,
+    "templateVersion": 1,
+    "templatesSha256": "3ee2116d1c585387bb579733868ec32637fa8a7f85d10ac8ec86a82560be6247",
+    "confidence": "high",
+    "inputs": {
+      ".github/workflows/ci.yml": "d8d8848d3de525b1ac725aa3a0013f5ad0c1902fb62d9cd7aa4cd2422277863a",
+      ".github/workflows/release.yml": "ef5d5c2c3efbe9e29454c24025374450eba42206aa5493504e7348a45f0ffd27",
+      "AGENTS.md": "db33fcaa544e52201b3f59f1e2f7ccf5472daddb825dd78bee969e09569cddfb",
+      "opencode.json": "bed5ec1bb95d78176c511828a1fadb97da6a4d1430e04a5a99ee90b22903e56c",
+      "package.json": "ed917e91baa44fd4565fce1628997793670bc30bba96b33a8744608776b0a804",
+      "README.md": "5e3804a708774cf06d4504b5d9c58ddba881219fa276f1fcccdfc300c707b8fa"
+    },
+    "outputs": {
+      ".opencode/agents/lane-scripts.md": "fd28b94a9e5745768106d7b7b77f588857089b98923123b9e3b25da1b72adfb7",
+      ".opencode/agents/lane-src.md": "72b7640776dc48f07ede85502558a03e45a303780a1642d3cfc9e7c1219a1b95",
+      ".opencode/agents/lane-test.md": "e83a8a876c46db330da35853e1f95938de866d65652083cb8622dd518525d277",
+      ".opencode/agents/lane-tests.md": "75567bf88cd546bbfe2f104a11e319818dd8607a4e346b926293e338799d4763",
+      ".opencode/agents/integrator.md": "8c47d6627a6845dbc73011709800f57dc8a6749307be57da872a4c5cf0d2987c",
+      ".opencode/agents/docs-writer.md": "abf00f82a3d00f27fb2d00c6939d75187bc86ae3a54df1da6366d472bc815b23",
+      ".opencode/agents/reviewer.md": "6149ef5475c5fa7f15746c949421f8650ff6800dbe5b08b9db45f12915844dbf",
+      ".opencode/agents/memory-curator.md": "0b312134f44d67d76ffe9427425f80a10a990d6434b0baa1e70f79e5e74035ad"
+    },
+    "payloadSha256": "3f26d1aca6dac8bc685cd5915a5e7e475bf8dcda1726c18f9a5322bfbf4bfaea"
+  },
+  "lanes": {
+    "scripts": {
+      "paths": [
+        "scripts/**"
+      ],
+      "test": null,
+      "source": "top-level-source"
+    },
+    "src": {
+      "paths": [
+        "src/**"
+      ],
+      "test": null,
+      "source": "top-level-source"
+    },
+    "test": {
+      "paths": [
+        "test/**"
+      ],
+      "test": null,
+      "source": "top-level-source"
+    },
+    "tests": {
+      "paths": [
+        "tests/**"
+      ],
+      "test": null,
+      "source": "top-level-source"
+    }
+  },
+  "verify": null,
+  "integrator": [
+    ".github/workflows/ci.yml",
+    ".github/workflows/release.yml",
+    "README.md",
+    "bun.lock",
+    "package-lock.json",
+    "package.json"
+  ],
+  "memory": {
+    "index": "MEMORY.md",
+    "notes": "docs/memory"
+  },
+  "models": {},
+  "locked": false,
+  "needs": [
+    {
+      "field": "lane.scripts.test",
+      "reason": "No lane-scoped test command was detected for scripts; add one to the manifest after review."
+    },
+    {
+      "field": "lane.src.test",
+      "reason": "No lane-scoped test command was detected for src; add one to the manifest after review."
+    },
+    {
+      "field": "lane.test.test",
+      "reason": "No lane-scoped test command was detected for test; add one to the manifest after review."
+    },
+    {
+      "field": "lane.tests.test",
+      "reason": "No lane-scoped test command was detected for tests; add one to the manifest after review."
+    },
+    {
+      "field": "verify",
+      "reason": "No verify command was found in package scripts, Makefile, justfile, CI, AGENTS.md or README.md."
+    }
+  ]
+}
