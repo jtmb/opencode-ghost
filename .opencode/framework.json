@@ -2,7 +2,7 @@
   "version": 1,
   "generated": {
     "by": "orchestrator",
-    "at": "2026-11-21T03:58:11.551Z",
+    "at": "2026-11-21T16:53:47.133Z",
     "generatorVersion": 1,
     "templateVersion": 1,
     "templatesSha256": "3ee2116d1c585387bb579733868ec32637fa8a7f85d10ac8ec86a82560be6247",
@@ -12,7 +12,7 @@
       ".github/workflows/release.yml": "ef5d5c2c3efbe9e29454c24025374450eba42206aa5493504e7348a45f0ffd27",
       "AGENTS.md": "db33fcaa544e52201b3f59f1e2f7ccf5472daddb825dd78bee969e09569cddfb",
       "opencode.json": "bed5ec1bb95d78176c511828a1fadb97da6a4d1430e04a5a99ee90b22903e56c",
-      "package.json": "ed917e91baa44fd4565fce1628997793670bc30bba96b33a8744608776b0a804",
+      "package.json": "5601603c83c77ec550ca821bca3c394bd28cfa92074706d66a0486c391efc3b8",
       "README.md": "5e3804a708774cf06d4504b5d9c58ddba881219fa276f1fcccdfc300c707b8fa"
     },
     "outputs": {
@@ -25,7 +25,7 @@
       ".opencode/agents/reviewer.md": "88c3b64e1af5ea3ec1c41eaed7c04254d257c0eb18506c9753ef849627bedb31",
       ".opencode/agents/memory-curator.md": "0b312134f44d67d76ffe9427425f80a10a990d6434b0baa1e70f79e5e74035ad"
     },
-    "payloadSha256": "5822c298ff5c53cd9bd68ea4e349c334c34addc8bd21397e12d228d9caa765b1"
+    "payloadSha256": "68f721356bfbbb42433176e5cf1f7ec9c7e2619e5aa8c50d96e57924afda5828"
   },
   "lanes": {
     "scripts": {
