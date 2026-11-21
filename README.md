@@ -136,6 +136,30 @@ Restart opencode after changing `cli.json`.
 Register a directory containing `tui.tsx`, not the file itself. For an installed
 copy, use `/absolute/path/to/config/plugins/opencode-ghost`.
 
+### Desktop app
+
+OpenCode Desktop loads GUI parts from the global `opencode.json(c)`, not
+`cli.json`. Point it at the checkout; the released
+`dist/gui-experimental.cjs` needs no build:
+
+```jsonc title="~/.config/opencode/opencode.jsonc"
+{
+  "plugins": [
+    {
+      "package": "/absolute/path/to/opencode-ghost",
+      "options": { "model": "provider/small-model" }
+    }
+  ]
+}
+```
+
+The desktop part writes the suggestion into the empty composer's placeholder,
+accepts it with `Tab` or `→`, and adds `Ghost: suggest next prompt`
+(`mod+shift+g`) and `/ghost`. Set `model` to a model that supports the
+stateless `generate.text` endpoint; otherwise the composer's current model is
+used. Composer ghost text is drawn by taking over the host's placeholder
+element, so a host composer change needs re-verification.
+
 ## Options
 
 | Option           | Type       | Default            | Notes                                                        |

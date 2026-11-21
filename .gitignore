@@ -3,7 +3,8 @@ node_modules/
 *.bak
 *.bak.*
 *.log
-dist/
+dist/*
+!dist/gui-experimental.cjs
 *.tgz
 .husky/_/
 package-lock.json

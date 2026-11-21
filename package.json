@@ -1,7 +1,7 @@
 {
   "name": "opencode-ghost",
-  "version": "1.3.15",
-  "description": "OpenCode ghost text autosuggest: suggests your next message as dimmed inline ghost text in the empty TUI composer, accepted with Tab or Right arrow.",
+  "version": "1.4.0",
+  "description": "OpenCode ghost text autosuggest: suggests your next message as dimmed inline ghost text in the empty composer, accepted with Tab or Right arrow.",
   "type": "module",
   "license": "MIT",
   "author": "Ozan Dogrultan",
@@ -25,10 +25,12 @@
     "opencode-tui"
   ],
   "exports": {
-    "./tui": "./src/tui.tsx"
+    "./tui": "./src/tui.tsx",
+    "./gui-experimental": "./dist/gui-experimental.cjs"
   },
   "files": [
     "src",
+    "dist",
     "CHANGELOG.md",
     "LICENSE",
     "README.md"
@@ -46,6 +48,7 @@
     "test:unit": "bun test",
     "test:changelog": "bash tests/changelog.sh",
     "typecheck": "tsc --noEmit",
+    "build": "vite build",
     "lint:sh": "for script in install.sh tests/*.sh scripts/*.sh; do bash -n \"$script\" || exit; done && node --check scripts/install.mjs",
     "prepublishOnly": "bun run test && bun run typecheck"
   },
@@ -61,11 +64,13 @@
     "@commitlint/cli": "^21.2.2",
     "@commitlint/config-conventional": "^21.2.2",
     "@opencode/client": "2.2.5",
-    "@opencode/plugin": "2.2.5",
+    "@opencode/plugin": "2.3.2",
     "@types/bun": "^1.4.3",
     "@types/node": "26.6.6",
     "husky": "^9.1.7",
     "solid-js": "1.9.12",
-    "typescript": "7.0.2"
+    "typescript": "7.0.2",
+    "vite": "^7.3.7",
+    "vite-plugin-solid": "^2.11.10"
   }
 }

@@ -5,6 +5,26 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - 2026-11-20
+
+### Added
+
+- Desktop app support: a `./gui-experimental` part shows the next-prompt suggestion as
+  ghost text in the empty composer, accepted with `Tab` or `→`.
+- `Ghost: suggest next prompt` command (`mod+shift+g`) and `/ghost` slash command.
+- A suggestion is primed once when a session opens with an empty composer.
+
+### Changed
+
+- The desktop part generates through the stateless `generate.text` endpoint, takes over
+  the composer's placeholder overlay while a suggestion is visible, and restores it
+  afterwards.
+- Local GUI bundles build with Vite; `dist/gui-experimental.cjs` ships with the release.
+
+### Fixed
+
+- Use the client's top-level `message.list` for the desktop transcript.
+
 ## [1.3.15] - 2026-11-08
 
 ### Fixed
@@ -337,6 +357,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Options for `model`, `acceptKeys`, `maxChars`, `idleDelayMs`,
   `recentMessages` and `system`.
 
+[1.4.0]: https://github.com/jtmb/opencode-ghost/compare/v1.3.15...v1.4.0
 [1.3.15]: https://github.com/ozandogrultan/opencode-ghost/compare/v1.3.14...v1.3.15
 [1.3.14]: https://github.com/ozandogrultan/opencode-ghost/compare/v1.3.13...v1.3.14
 [1.3.13]: https://github.com/ozandogrultan/opencode-ghost/compare/v1.3.12...v1.3.13
