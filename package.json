@@ -49,7 +49,7 @@
     "test:changelog": "bash tests/changelog.sh",
     "typecheck": "tsc --noEmit",
     "build": "vite build",
-    "lint:sh": "for script in install.sh tests/*.sh scripts/*.sh; do bash -n \"$script\" || exit; done && node --check scripts/install.mjs",
+    "lint:sh": "bash -c 'for script in install.sh tests/*.sh scripts/*.sh; do bash -n \"$script\" || exit; done' && node --check scripts/install.mjs",
     "prepublishOnly": "bun run test && bun run typecheck"
   },
   "dependencies": {

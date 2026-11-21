@@ -7,6 +7,17 @@ const repoDir = join(import.meta.dir, "..")
 
 const roots: string[] = []
 
+function bashPath() {
+  if (process.env.OPENCODE_GIT_BASH_PATH) return process.env.OPENCODE_GIT_BASH_PATH
+  if (process.platform !== "win32") return "bash"
+  const candidates = [
+    join(process.env.ProgramFiles ?? "C:\\Program Files", "Git", "bin", "bash.exe"),
+    join(process.env.LOCALAPPDATA ?? "", "Programs", "Git", "bin", "bash.exe"),
+  ]
+  for (const candidate of candidates) if (existsSync(candidate)) return candidate
+  return "bash"
+}
+
 afterAll(() => {
   for (const root of roots) rmSync(root, { recursive: true, force: true })
 })
@@ -40,7 +51,7 @@ function sandbox(options: { cli?: (configDir: string) => unknown | null; tui?: (
   if (options.tuiRaw !== undefined) writeFileSync(tuiPath, options.tuiRaw)
   options.before?.(configDir)
 
-  const result = Bun.spawnSync(["bash", join(repoDir, "install.sh"), ...(options.all ? ["--all"] : [])], {
+  const result = Bun.spawnSync([bashPath(), join(repoDir, "install.sh"), ...(options.all ? ["--all"] : [])], {
     cwd: repoDir,
     env: { ...process.env, HOME: home, PATH: `${binDir}:${process.env.PATH}`, XDG_CONFIG_HOME: config, GHOST_TEST_CONFIG: configDir },
     stdout: "pipe",
@@ -74,7 +85,7 @@ function expectInstallationUnchanged(dir: string) {
 }
 
 describe("install.sh cli.json registration", () => {
-  test("does not mutate old tui when CLI write fails", () => {
+  test.skipIf(process.platform === "win32")("does not mutate old tui when CLI write fails", () => {
     const raw = '{"plugin":["opencode-ghost"]}'
     const run = sandbox({ tuiRaw: raw, before: (dir) => symlinkSync(join(dir, "missing/cli.json"), join(dir, "cli.json")) })
     expect(run.result.exitCode).not.toBe(0)
@@ -197,7 +208,7 @@ describe("install.sh cli.json registration", () => {
   })
 
   test("handles --help and rejects unknown flags before touching files", () => {
-    const help = Bun.spawnSync(["bash", join(repoDir, "install.sh"), "--help"], {
+    const help = Bun.spawnSync([bashPath(), join(repoDir, "install.sh"), "--help"], {
       cwd: repoDir,
       stdout: "pipe",
       stderr: "pipe",
@@ -205,7 +216,7 @@ describe("install.sh cli.json registration", () => {
     expect(help.exitCode).toBe(0)
     expect(help.stdout.toString()).toContain("Usage:")
 
-    const unknown = Bun.spawnSync(["bash", join(repoDir, "install.sh"), "--bogus"], {
+    const unknown = Bun.spawnSync([bashPath(), join(repoDir, "install.sh"), "--bogus"], {
       cwd: repoDir,
       stdout: "pipe",
       stderr: "pipe",
@@ -223,7 +234,7 @@ describe("install.sh cli.json registration", () => {
     mkdirSync(second, { recursive: true })
     writeFileSync(join(second, "cli.json"), "{broken")
 
-    const result = Bun.spawnSync(["bash", join(repoDir, "install.sh"), first, second], {
+    const result = Bun.spawnSync([bashPath(), join(repoDir, "install.sh"), first, second], {
       cwd: repoDir,
       env: { ...process.env, HOME: root },
       stdout: "pipe",
@@ -235,12 +246,12 @@ describe("install.sh cli.json registration", () => {
     expect(readFileSync(join(second, "cli.json"), "utf8")).toBe("{broken")
   })
   test("creates cli.json when it is missing", () => {
-    const { result, readCli } = sandbox({})
+    const { result, readCli, configDir } = sandbox({})
 
     expect(result.exitCode).toBe(0)
     const config = readCli()
     expect(specs(config)).toHaveLength(1)
-    expect(specs(config)[0]).toMatch(/plugins\/opencode-ghost$/)
+    expect(specs(config)[0]).toBe(join(configDir, "plugins", "opencode-ghost"))
   })
 
   test("keeps an existing entry without adding a duplicate", () => {
@@ -251,16 +262,16 @@ describe("install.sh cli.json registration", () => {
     expect(result.exitCode).toBe(0)
     const config = readCli()
     expect(specs(config)).toHaveLength(1)
-    expect(specs(config)).toEqual([`${configDir}/plugins/opencode-ghost`])
+    expect(specs(config)).toEqual([join(configDir, "plugins", "opencode-ghost")])
   })
 
   test("preserves other plugins and appends after them", () => {
-    const { result, readCli } = sandbox({ cli: () => ({ plugins: ["opencode.other"] }) })
+    const { result, readCli, configDir } = sandbox({ cli: () => ({ plugins: ["opencode.other"] }) })
 
     expect(result.exitCode).toBe(0)
     const config = readCli()
     expect(specs(config)[0]).toBe("opencode.other")
-    expect(specs(config)[1]).toMatch(/plugins\/opencode-ghost$/)
+    expect(specs(config)[1]).toBe(join(configDir, "plugins", "opencode-ghost"))
   })
 
   test("migrates a V1 tui.json registration, carrying its options and removing the old entry", () => {
@@ -289,7 +300,7 @@ describe("install.sh cli.json registration", () => {
     const explicitDir = join(root, "custom-opencode")
     mkdirSync(explicitDir, { recursive: true })
 
-    const result = Bun.spawnSync(["bash", join(repoDir, "install.sh"), explicitDir], {
+    const result = Bun.spawnSync([bashPath(), join(repoDir, "install.sh"), explicitDir], {
       cwd: repoDir,
       env: { ...process.env, HOME: root, XDG_CONFIG_HOME: join(root, "config"), PATH: process.env.PATH },
       stdout: "pipe",
@@ -299,6 +310,6 @@ describe("install.sh cli.json registration", () => {
     expect(result.exitCode).toBe(0)
     const cliContent = JSON.parse(readFileSync(join(explicitDir, "cli.json"), "utf8"))
     expect(specs(cliContent)).toHaveLength(1)
-    expect(specs(cliContent)[0]).toBe(`${explicitDir}/plugins/opencode-ghost`)
+    expect(specs(cliContent)[0]).toBe(join(explicitDir, "plugins", "opencode-ghost"))
   })
 })

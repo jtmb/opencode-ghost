@@ -38,14 +38,20 @@ for arg in "$@"; do
 done
 
 if [ "$install_all" = true ] || [ ${#targets[@]} -eq 0 ]; then
-  if ! command -v opencode >/dev/null 2>&1; then
-    echo "error: 'opencode' is not on PATH" >&2
-    exit 1
-  fi
-  # Prefer opencode's own reported config path; fall back to the XDG default.
-  cfg="$(opencode debug paths 2>/dev/null | awk '$1 == "config" { sub(/^[[:space:]]*config[[:space:]]+/, ""); print; exit }')"
-  if [ -z "$cfg" ]; then
-    cfg="${XDG_CONFIG_HOME:-$HOME/.config}/opencode"
+  # The test harness supplies a known config directory so it does not depend on
+  # a fake `opencode` executable being runnable from Windows Git Bash.
+  if [ -n "${GHOST_TEST_CONFIG:-}" ]; then
+    cfg="$GHOST_TEST_CONFIG"
+  else
+    if ! command -v opencode >/dev/null 2>&1; then
+      echo "error: 'opencode' is not on PATH" >&2
+      exit 1
+    fi
+    # Prefer opencode's own reported config path; fall back to the XDG default.
+    cfg="$(opencode debug paths 2>/dev/null | awk '$1 == "config" { sub(/^[[:space:]]*config[[:space:]]+/, ""); print; exit }')"
+    if [ -z "$cfg" ]; then
+      cfg="${XDG_CONFIG_HOME:-$HOME/.config}/opencode"
+    fi
   fi
 
   if [ "$install_all" = true ]; then
