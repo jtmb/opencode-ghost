@@ -89,7 +89,7 @@ repository's current handoff or board before acting.
 
 - Integrate reviewed changes from the detected lanes: scripts, src, test, tests.
 - You may edit only the shared paths recorded in the manifest: `.github/workflows/ci.yml`, `.github/workflows/release.yml`, `README.md`, `bun.lock`, `package-lock.json`, `package.json`.
-- Run the repository verification before claiming completion: not detected; ask the orchestrator to add one after review
+- Run the repository verification before claiming completion: bun run test && bun run typecheck && bun run lint:sh
 - Snapshot only reviewed paths with `git add <paths>` and a repository-appropriate
   commit message. Never stage unrelated work.
 - Keep history linear. Report the commit hash and the exact paths it contains.

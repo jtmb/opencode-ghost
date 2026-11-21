@@ -2,7 +2,7 @@
   "version": 1,
   "generated": {
     "by": "orchestrator",
-    "at": "2026-11-21T03:46:46.887Z",
+    "at": "2026-11-21T03:47:44.969Z",
     "generatorVersion": 1,
     "templateVersion": 1,
     "templatesSha256": "3ee2116d1c585387bb579733868ec32637fa8a7f85d10ac8ec86a82560be6247",
@@ -16,16 +16,16 @@
       "README.md": "5e3804a708774cf06d4504b5d9c58ddba881219fa276f1fcccdfc300c707b8fa"
     },
     "outputs": {
-      ".opencode/agents/lane-scripts.md": "fd28b94a9e5745768106d7b7b77f588857089b98923123b9e3b25da1b72adfb7",
-      ".opencode/agents/lane-src.md": "72b7640776dc48f07ede85502558a03e45a303780a1642d3cfc9e7c1219a1b95",
-      ".opencode/agents/lane-test.md": "e83a8a876c46db330da35853e1f95938de866d65652083cb8622dd518525d277",
-      ".opencode/agents/lane-tests.md": "75567bf88cd546bbfe2f104a11e319818dd8607a4e346b926293e338799d4763",
-      ".opencode/agents/integrator.md": "8c47d6627a6845dbc73011709800f57dc8a6749307be57da872a4c5cf0d2987c",
+      ".opencode/agents/lane-scripts.md": "b9da40d43db27fe0d617a582b6419514e90ce80399a8a9e935381cb5b22e2968",
+      ".opencode/agents/lane-src.md": "991e6e76867d7dff756be609ef4304d28643f43276a4e5cf80a9e833d5b57b08",
+      ".opencode/agents/lane-test.md": "141bcf4a627fee4100eb8e714dacffcf455dfbe271cb4fefdebb3e7635aad791",
+      ".opencode/agents/lane-tests.md": "e8cc695b5970b7d1124ae5051539606297df7420fab0ead71b4867230a621e05",
+      ".opencode/agents/integrator.md": "df42e9f9d6dabe056891fe26f5116703b84adaf60a3df26cc6ddf3724bc1931e",
       ".opencode/agents/docs-writer.md": "abf00f82a3d00f27fb2d00c6939d75187bc86ae3a54df1da6366d472bc815b23",
-      ".opencode/agents/reviewer.md": "6149ef5475c5fa7f15746c949421f8650ff6800dbe5b08b9db45f12915844dbf",
+      ".opencode/agents/reviewer.md": "1d8ab4eace2b4ed298922cfab0315e39e7ae06556bb48a752e16d04f039a1535",
       ".opencode/agents/memory-curator.md": "0b312134f44d67d76ffe9427425f80a10a990d6434b0baa1e70f79e5e74035ad"
     },
-    "payloadSha256": "3f26d1aca6dac8bc685cd5915a5e7e475bf8dcda1726c18f9a5322bfbf4bfaea"
+    "payloadSha256": "5822c298ff5c53cd9bd68ea4e349c334c34addc8bd21397e12d228d9caa765b1"
   },
   "lanes": {
     "scripts": {
@@ -57,7 +57,7 @@
       "source": "top-level-source"
     }
   },
-  "verify": null,
+  "verify": "bun run test && bun run typecheck && bun run lint:sh",
   "integrator": [
     ".github/workflows/ci.yml",
     ".github/workflows/release.yml",
@@ -88,10 +88,6 @@
     {
       "field": "lane.tests.test",
       "reason": "No lane-scoped test command was detected for tests; add one to the manifest after review."
-    },
-    {
-      "field": "verify",
-      "reason": "No verify command was found in package scripts, Makefile, justfile, CI, AGENTS.md or README.md."
     }
   ]
 }

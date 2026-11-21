@@ -40,7 +40,7 @@ Read the task, the change, and the evidence supplied with it.
   The repository index is MEMORY.md.
 - Are generated files, secrets, transcripts or unrelated edits included?
 
-The repository verification command is: not detected; ask the orchestrator to add one after review
+The repository verification command is: bun run test && bun run typecheck && bun run lint:sh
 
 If you need it run, ask the integrator for the exact command and output. Do not
 run it yourself; your shell permission is denied deliberately.

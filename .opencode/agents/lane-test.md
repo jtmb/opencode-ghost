@@ -47,7 +47,7 @@ user's current instructions outrank this prompt and memory.
 - Keep changes inside the lane paths. Do not edit shared manifests, root
   configuration, `.opencode/**`, `AGENTS.md`, `MEMORY.md` or `docs/memory/**`.
 - Run the lane test: No lane-scoped test was detected. Ask the orchestrator to add one to the manifest; do not invent a command.
-- Run the repository verification when your change affects it: not detected; ask the orchestrator to add one after review
+- Run the repository verification when your change affects it: bun run test && bun run typecheck && bun run lint:sh
 - Report the exact command, exit code and relevant output. Do not claim a test
   passed without evidence.
 - If the lane test is missing or wrong, report it to the orchestrator; do not
