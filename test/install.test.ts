@@ -1,7 +1,7 @@
 import { afterAll, describe, expect, test } from "bun:test"
 import { chmodSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs"
 import { tmpdir } from "node:os"
-import { join } from "node:path"
+import { join, dirname } from "node:path"
 
 const repoDir = join(import.meta.dir, "..")
 
@@ -21,6 +21,40 @@ function bashPath() {
 afterAll(() => {
   for (const root of roots) rmSync(root, { recursive: true, force: true })
 })
+
+/**
+ * Build a PATH for the spawned bash that matches the style of the ambient one.
+ * MSYS does not reliably convert a Windows PATH passed through a native spawn,
+ * and a colon-joined Windows path is split at the drive letter, so Windows
+ * entries are rendered in MSYS form explicitly. This keeps the sandbox working
+ * whether Bun was launched from PowerShell/cmd or from Git Bash.
+ */
+function msysPath(entry: string): string {
+  const match = entry.match(/^([A-Za-z]):[\\/]?(.*)$/)
+  if (!match) return entry
+  return `/${match[1].toLowerCase()}/${match[2].replaceAll("\\", "/")}`
+}
+
+function sandboxPath(binDir: string): string {
+  const nativePath = process.env.PATH ?? ""
+  if (process.platform !== "win32") return `${binDir}:${nativePath}`
+  const parts = [msysPath(binDir)]
+  const bash = bashPath()
+  if (bash !== "bash") {
+    // A PowerShell-launched process does not inherit Git's usr/bin, where the
+    // scripts' POSIX tools (dirname, cd, ...) live.
+    const gitRoot = dirname(dirname(bash))
+    parts.push(msysPath(join(gitRoot, "usr", "bin")), msysPath(join(gitRoot, "bin")))
+  }
+  parts.push(
+    nativePath
+      .split(";")
+      .filter(Boolean)
+      .map(msysPath)
+      .join(":"),
+  )
+  return parts.join(":")
+}
 
 function sandbox(options: { cli?: (configDir: string) => unknown | null; tui?: (configDir: string) => unknown | null; cliRaw?: string; tuiRaw?: string; before?: (configDir: string) => void; all?: boolean }) {
   const root = mkdtempSync(join(tmpdir(), "ghost-install-"))
@@ -53,7 +87,7 @@ function sandbox(options: { cli?: (configDir: string) => unknown | null; tui?: (
 
   const result = Bun.spawnSync([bashPath(), join(repoDir, "install.sh"), ...(options.all ? ["--all"] : [])], {
     cwd: repoDir,
-    env: { ...process.env, HOME: home, PATH: `${binDir}:${process.env.PATH}`, XDG_CONFIG_HOME: config, GHOST_TEST_CONFIG: configDir },
+    env: { ...process.env, HOME: home, PATH: sandboxPath(binDir), XDG_CONFIG_HOME: config, GHOST_TEST_CONFIG: configDir },
     stdout: "pipe",
     stderr: "pipe",
   })
@@ -302,7 +336,7 @@ describe("install.sh cli.json registration", () => {
 
     const result = Bun.spawnSync([bashPath(), join(repoDir, "install.sh"), explicitDir], {
       cwd: repoDir,
-      env: { ...process.env, HOME: root, XDG_CONFIG_HOME: join(root, "config"), PATH: process.env.PATH },
+      env: { ...process.env, HOME: root, XDG_CONFIG_HOME: join(root, "config"), PATH: sandboxPath(root) },
       stdout: "pipe",
       stderr: "pipe",
     })
